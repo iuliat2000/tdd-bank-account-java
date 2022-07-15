@@ -27,19 +27,48 @@ public class AccountTest {
     }
 
     @Test
-    public void depositANegativeAmountToDecreaseTheBalance() {
+    public void depositANegativeAmountNotAllowed() {
         Account account = new Account();
         assertThat(account.balance()).isEqualTo(0);
         account.deposit(100);
         account.deposit(-50);
-        assertThat(account.balance()).isEqualTo(50);
+        assertThat(account.balance()).isEqualTo(100);
     }
+
     @Test
-    public void depositNegativeAmountExceedsBalance() {
+    public void withdrawAnAmountToDecreaseTheBalance() {
         Account account = new Account();
         assertThat(account.balance()).isEqualTo(0);
         account.deposit(50);
-        account.deposit(-100);
+        account.withdraw(10);
+        assertThat(account.balance()).isEqualTo(40);
+    }
+
+    @Test
+    public void withdrawTwoAmountsToDecreaseTheBalance() {
+        Account account = new Account();
+        assertThat(account.balance()).isEqualTo(0);
+        account.deposit(50);
+        account.withdraw(10);
+        account.withdraw(10);
+        assertThat(account.balance()).isEqualTo(30);
+    }
+
+    @Test
+    public void withdrawNegativeAmountNotAllowed() {
+        Account account = new Account();
+        assertThat(account.balance()).isEqualTo(0);
+        account.deposit(50);
+        account.withdraw(-10);
+        assertThat(account.balance()).isEqualTo(50);
+    }
+
+    @Test
+    public void withdrawAmountThatExceedsBalance() {
+        Account account = new Account();
+        assertThat(account.balance()).isEqualTo(0);
+        account.deposit(50);
+        account.withdraw(100);
         assertThat(account.balance()).isEqualTo(50);
     }
 
